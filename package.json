@@ -1,0 +1,32 @@
+{
+  "name": "edutrack",
+  "version": "1.0.0",
+  "description": "EduTrack is a centralized platform for student data tracking and academic record management.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhalshaker/edutrack.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhalshaker/edutrack/issues"
+  },
+  "homepage": "https://github.com/bhalshaker/edutrack#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "joi": "^18.0.1",
+    "mongoose": "^8.19.3",
+    "mongoose-sequence": "^6.0.1"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.10",
+    "supertest": "^7.1.4"
+  }
+}
