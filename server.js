@@ -8,8 +8,9 @@ import studentRoutes from "./src/routes/studentRoutes";
 dotenv.config();
 // Connect to the database server
 connectDB();
-
+// Initilize Express application
 const app = express();
+// Enable JSON parsing for incoming requests
 app.use(express.json());
 app.use("/api", studentRoutes);
 
