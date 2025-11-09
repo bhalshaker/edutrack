@@ -1,0 +1,89 @@
+classDiagram
+  class Student {
+    +String firstName
+    +String secondName
+    +Date dateOfBirth
+    +String identityNumber
+    +String contactNumber
+    +String gender
+    +String email
+    +String address
+    +String currentSchool
+    +String currentClass
+    +String workPlace
+    +String educationalLevel
+    +Relative[] relatives
+    +Note[] notes
+    +Date createdAt
+    +Date updatedAt
+    +AutoIncrement studentId
+  }
+
+  class Relative {
+    +String name
+    +String mobile
+    +String relationship
+    +String status
+    +Date createdAt
+    +Date updatedAt
+  }
+
+  class Note {
+    +String text
+    +Date createdAt
+    +Date updatedAt
+  }
+
+  Student --> "0..*" Relative : has
+  Student --> "0..*" Note : has
+
+  class RELATIONSHIPS {
+    <<enumeration>>
+    Father
+    Mother
+    Brother
+    Sister
+    Spouse
+    Grandfather
+    Grandmother
+    Guardian
+    Friend
+    Cousin
+    Uncle
+    Aunt
+    Other
+  }
+
+  class STATUS_TYPE {
+    <<enumeration>>
+    Guardian
+    Contact
+  }
+
+  class GENDER {
+    <<enumeration>>
+    Male
+    Female
+  }
+
+  class EDUCATION_LEVEL {
+    <<enumeration>>
+    Nursery
+    Preschool
+    Primary School
+    Elementary School
+    High School
+    Technical School
+    Diploma
+    National Diploma
+    High National Diploma
+    Associate Degree
+    Bachelor's Degree
+    Master's Degree
+    Doctorate
+  }
+
+  Relative --> RELATIONSHIPS : uses
+  Relative --> STATUS_TYPE : uses
+  Student --> GENDER : uses
+  Student --> EDUCATION_LEVEL : uses

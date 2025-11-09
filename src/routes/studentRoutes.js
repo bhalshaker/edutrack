@@ -11,7 +11,7 @@ import {
 Router.get("/", getAllStudents);
 Router.post("/", createStudent);
 Router.get("/:studentId", getStudentById);
-Router.put("/:studentId", updateStudentById);
+Router.patch("/:studentId", updateStudentById);
 Router.delete("/:studentId", deleteStudentById);
 
 module.exports = Router;
