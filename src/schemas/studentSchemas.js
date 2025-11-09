@@ -76,7 +76,12 @@ const updateStudentSchema = Joi.object({
       "At least one field must be provided to update student record",
   });
 
+const studentIdSchema = Joi.object({
+  id: Joi.number().integer().positive().required(),
+});
+
 module.exports = {
   createStudentSchema,
   updateStudentSchema,
+  studentIdSchema,
 };
