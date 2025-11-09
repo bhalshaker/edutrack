@@ -1,12 +1,92 @@
-const getAllStudents = async (req, res) => {};
+import {
+  getAllStudentsService,
+  createStudentService,
+  getStudentByIdService,
+  updateStudentByIdService,
+  deleteStudentByIdService,
+} from "../services/studentServices";
 
-const createStudent = async (req, res) => {};
+const getAllStudents = async (req, res) => {
+  try {
+    const allStudents = await getAllStudentsService();
+    return res.status(200).json(allStudents);
+  } catch (error) {
+    const errorMessage = error.details
+      .map((detail) => detail.message)
+      .join(",");
+    return res.status(500).json({
+      success: false,
+      message: `Technical unexpected error: ${errorMessage}`,
+      details: error.details,
+    });
+  }
+};
 
-const getStudentById = async (req, res) => {};
+const createStudent = async (req, res) => {
+  try {
+    const createdStudent = await createStudentService(req.body());
+    return res.status(201).json(createdStudent);
+  } catch (error) {
+    const errorMessage = error.details
+      .map((detail) => detail.message)
+      .join(",");
+    return res.status(500).json({
+      success: false,
+      message: `Technical unexpected error: ${errorMessage}`,
+      details: error.details,
+    });
+  }
+};
 
-const updateStudentById = async (req, res) => {};
+const getStudentById = async (req, res) => {
+  try {
+    const student = await getStudentByIdService(req.params.studentId);
+    return res.status(200).json(student);
+  } catch (error) {
+    const errorMessage = error.details
+      .map((detail) => detail.message)
+      .join(",");
+    return res.status(500).json({
+      success: false,
+      message: `Technical unexpected error: ${errorMessage}`,
+      details: error.details,
+    });
+  }
+};
 
-const deleteStudentById = async (req, res) => {};
+const updateStudentById = async (req, res) => {
+  try {
+    const updatedStudent = await updateStudentByIdService(req.params.studentId);
+    return res.status(200).json(updatedStudent);
+  } catch (error) {
+    const errorMessage = error.details
+      .map((detail) => detail.message)
+      .join(",");
+    return res.status(500).json({
+      success: false,
+      message: `Technical unexpected error: ${errorMessage}`,
+      details: error.details,
+    });
+  }
+};
+
+const deleteStudentById = async (req, res) => {
+  try {
+    await deleteStudentByIdService(req.params.studentId);
+    return res
+      .status(202)
+      .json({ message: "Student was deleted successfully" });
+  } catch (error) {
+    const errorMessage = error.details
+      .map((detail) => detail.message)
+      .join(",");
+    return res.status(500).json({
+      success: false,
+      message: `Technical unexpected error: ${errorMessage}`,
+      details: error.details,
+    });
+  }
+};
 
 module.exports = {
   getAllStudents,
