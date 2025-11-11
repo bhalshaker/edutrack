@@ -4,7 +4,7 @@ import {
   STATUS_TYPE,
   GENDER,
   EDUCATION_LEVEL,
-} from "../models/studentModel";
+} from "../models/studentModel.js";
 
 const noteJoiSchema = Joi.object({
   text: Joi.string().required(),
@@ -80,8 +80,4 @@ const studentIdSchema = Joi.object({
   id: Joi.number().integer().positive().required(),
 });
 
-module.exports = {
-  createStudentSchema,
-  updateStudentSchema,
-  studentIdSchema,
-};
+export { createStudentSchema, updateStudentSchema, studentIdSchema };

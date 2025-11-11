@@ -124,10 +124,4 @@ const studentSchema = new mongoose.Schema(
 
 studentSchema.plugin(AutoIncrement, { inc_field: "studentId", unique: true });
 const Student = mongoose.model("Student", studentSchema);
-module.exports = {
-  Student,
-  RELATIONSHIPS,
-  STATUS_TYPE,
-  GENDER,
-  EDUCATION_LEVEL,
-};
+export { Student, RELATIONSHIPS, STATUS_TYPE, GENDER, EDUCATION_LEVEL };
