@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "EduTrack is a centralized platform for student data tracking and academic record management.",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodeman server.js",
