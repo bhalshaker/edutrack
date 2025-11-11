@@ -4,7 +4,7 @@ import {
   getStudentByIdService,
   updateStudentByIdService,
   deleteStudentByIdService,
-} from "../services/studentServices";
+} from "../services/studentServices.js";
 
 const getAllStudents = async (req, res) => {
   try {
@@ -88,7 +88,7 @@ const deleteStudentById = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getAllStudents,
   createStudent,
   getStudentById,

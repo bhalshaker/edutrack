@@ -1,4 +1,4 @@
-import Student from "../models/studentModel";
+import { Student } from "../models/studentModel.js";
 
 const getAllStudentsService = async () => {
   try {
@@ -67,7 +67,7 @@ const deleteStudentByIdService = async (studentId) => {
   }
 };
 
-module.exports = {
+export {
   getAllStudentsService,
   createStudentService,
   getStudentByIdService,

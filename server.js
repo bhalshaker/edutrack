@@ -1,18 +1,18 @@
 import dotenv from "dotenv";
 import express from "express";
-import connectDB from "./src/config/db";
-import config from "./src/config/config";
-import studentRoutes from "./src/routes/studentRoutes";
+import { connectDatabase } from "./src/config/db.js";
+import config from "./src/config/config.js";
+import { StudentRouter } from "./src/routes/studentRoutes.js";
 
 // Load the environment variables from .env file
 dotenv.config();
 // Connect to the database server
-connectDB();
+connectDatabase();
 // Initilize Express application
 const app = express();
 // Enable JSON parsing for incoming requests
 app.use(express.json());
-app.use("/api", studentRoutes);
+app.use("/api", StudentRouter);
 
 app.listen(config.PORT, () =>
   console.log(

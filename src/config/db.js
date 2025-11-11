@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import config from "./config";
+import config from "./config.js";
 
 const connectDatabase = async () => {
   try {
@@ -17,4 +17,4 @@ const connectDatabase = async () => {
   }
 };
 
-export default connectDatabase;
+export { connectDatabase };
