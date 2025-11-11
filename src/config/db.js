@@ -3,11 +3,8 @@ import config from "./config.js";
 
 const connectDatabase = async () => {
   try {
-    const conn = await mongoose.connect(config.MONGO_URI, {
-      // MongoDB connection options
-      useNewUrlParser: true,
-      userUnifiedTopology: true,
-    });
+    console.log(`Database URL value: ${config.MONGO_URI}`);
+    const conn = await mongoose.connect(config.MONGO_URI);
     console.log(
       `✅ MongoDB successfully connected to: ${conn.connection.host}`
     );
