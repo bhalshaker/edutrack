@@ -1,4 +1,5 @@
 import { Student } from "../models/studentModel.js";
+import mongoose from "mongoose";
 
 const getAllStudentsService = async () => {
   try {
@@ -24,8 +25,21 @@ const createStudentService = async (studentData) => {
 };
 const getStudentByIdService = async (studentId) => {
   try {
-    const student = await Student.findById(studentId);
-    return student;
+    // If the studentId looks like an auto-increment numeric id (e.g. "1"),
+    // search by the studentId field. Otherwise, if it's a valid ObjectId,
+    // search by _id. If it's neither, return null so controller can return 404.
+    if (/^\d+$/.test(String(studentId))) {
+      const student = await Student.findOne({ studentId: Number(studentId) });
+      return student;
+    }
+
+    if (mongoose.Types.ObjectId.isValid(String(studentId))) {
+      const student = await Student.findById(studentId);
+      return student;
+    }
+
+    // Not a numeric id nor a valid ObjectId -> no result
+    return null;
   } catch (error) {
     console.error(
       `###  Error - not find student with id ${studentId} due to`,
@@ -37,7 +51,7 @@ const getStudentByIdService = async (studentId) => {
 const updateStudentByIdService = async (studentId, updatedData) => {
   try {
     const updatedStudent = await Student.findByIdAndUpdate(
-      studentId,
+      Number(studentId),
       updatedData,
       {
         new: true,
@@ -57,7 +71,7 @@ const updateStudentByIdService = async (studentId, updatedData) => {
 };
 const deleteStudentByIdService = async (studentId) => {
   try {
-    await Student.findByIdAndDelete(studentId);
+    await Student.findByIdAndDelete(Number(studentId));
   } catch (error) {
     console.error(
       `###  Error - not delete the student with id ${studentId} due to`,
