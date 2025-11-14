@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import app from "../server.js";
 import { Student } from "../src/models/studentModel.js";
+import { createStudentService } from "../src/services/studentServices.js";
 
 // Declare a variable for in-memory mongodb
 let mongoServer;
@@ -77,16 +78,6 @@ describe("GET /api/students/:studentId with non existing students", () => {
   });
 });
 
-// describe("PATCH /api/students/:studentId with non existing students", () => {
-//   it("should return 404 student does not exist", async () => {
-//     // Get request with non existing student id
-//     const res = await request(app)
-//       .patch("/api/students/1")
-//       .expect("Content-Type", /json/)
-//       .expect(404);
-//   });
-// });
-
 describe("POST /api/students successfully", () => {
   it("Minumum required parameters", async () => {
     const studentWithMinmumFields = {
@@ -136,6 +127,17 @@ describe("POST /api/students successfully", () => {
       .expect("Content-Type", /json/)
       .expect(201);
   });
+});
+
+describe("GET /api/students successfully", () => {
+  it("GET /api/students --> should return no students", async () => {
+    const res = await request(app)
+      .get("/api/students")
+      .expect("Content-Type", /json/)
+      .expect(200); // Expect a 200 OK status
+    expect(res.body).toBeInstanceOf(Array);
+    expect(res.body.length).toBe(0);
+  });
   it("GET /api/students --> should return all students", async () => {
     const studentWithMinmumFields = {
       firstName: "Salem",
@@ -171,22 +173,47 @@ describe("POST /api/students successfully", () => {
         { text: "Excellent academic performance in Science." },
       ],
     };
-    await request(app)
-      .post("/api/students")
-      .send(studentWithMinmumFields)
-      .expect("Content-Type", /json/)
-      .expect(201);
-    await request(app)
-      .post("/api/students")
-      .send(studentWithAllParameters)
-      .expect("Content-Type", /json/)
-      .expect(201);
+    await createStudentService(studentWithMinmumFields);
+    await createStudentService(studentWithAllParameters);
     const res = await request(app)
       .get("/api/students")
       .expect("Content-Type", /json/)
       .expect(200); // Expect a 200 OK status
-
     expect(res.body).toBeInstanceOf(Array);
     expect(res.body.length).toBe(2);
+  });
+});
+
+describe("PATCH /api/students/:studentId", () => {
+  it("should return 400 if student id is non numeric", async () => {
+    const res = await request(app)
+      .patch("/api/students/1a")
+      .expect("Content-Type", /json/)
+      .expect(400);
+  });
+  it("should return 400 if update schema invalid", async () => {
+    const invalidUpdateSchema = {};
+    const res = await request(app)
+      .patch("/api/students/1")
+      .send(invalidUpdateSchema)
+      .expect("Content-Type", /json/)
+      .expect(400);
+  });
+  it("should return 200 if minimum requirements met with the right student id", async () => {
+    const studentWithMinmumFields = {
+      firstName: "Salem",
+      secondName: "Ahmed",
+      dateOfBirth: "2008-01-05",
+      contactNumber: "38846577",
+      gender: "Male",
+      email: "saloom@saloom.org",
+    };
+    const student = await createStudentService(studentWithMinmumFields);
+    const validUpdateSchema = { firstName: "Ahmed" };
+    const res = await request(app)
+      .patch(`/api/students/${student.studentId}`)
+      .send(validUpdateSchema)
+      .expect("Content-Type", /json/)
+      .expect(200);
   });
 });
