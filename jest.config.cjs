@@ -4,4 +4,5 @@ module.exports = {
   transform: {},
   // Include .mjs tests (we use ESM test files)
   testMatch: ["**/tests/**/*.mjs", "**/?(*.)+(spec|test).mjs"],
+  verbose: true,
 };
