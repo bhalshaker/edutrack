@@ -9,5 +9,5 @@ npm install express mongoose dotenv joi mongoose-sequence
 ```
 
 ```
-npm install --save-dev nodemon jest supertest
+npm install --save-dev nodemon jest supertest  mongodb-memory-server
 ```

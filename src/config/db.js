@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import config from "./config.js";
 
+// Initialize database connection to MongoDB
 const connectDatabase = async () => {
   try {
     console.log(`Database URL value: ${config.MONGO_URI}`);
@@ -13,5 +14,5 @@ const connectDatabase = async () => {
     process.exit(1);
   }
 };
-
+// Export database connection function
 export { connectDatabase };
