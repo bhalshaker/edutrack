@@ -36,7 +36,7 @@ afterAll(async () => {
 
 describe("POST /api/students with invalid payload", () => {
   it("should return 400 and validation details when schema is invalid", async () => {
-    // Post Payliad
+    // Post Payload
     const userData = {
       email: "test@example.com",
       password: "password123",
@@ -68,13 +68,40 @@ describe("GET /api/students/:studentId with non numaric studentId", () => {
   });
 });
 
-describe("GET /api/students/:studentId with non existing students", () => {
+describe("GET /api/students/:studentId", () => {
   it("should return 404 student does not exist", async () => {
     // Get request with non existing student id
     const res = await request(app)
       .get("/api/students/1")
       .expect("Content-Type", /json/)
       .expect(404);
+  });
+  it("should return 200 student exists", async () => {
+    const studentWithMinmumFields = {
+      firstName: "Salem",
+      secondName: "Ahmed",
+      dateOfBirth: "2008-01-05",
+      contactNumber: "38846577",
+      gender: "Male",
+      email: "saloom@saloom.org",
+    };
+    const student = await createStudentService(studentWithMinmumFields);
+    // Get request with existing student id
+    const res = await request(app)
+      .get(`/api/students/${student.studentId}`)
+      .expect("Content-Type", /json/)
+      .expect(200);
+  });
+  it("should return 400 and validation details when studentId is not numeric", async () => {
+    // GET request with the invalid studentId
+    const res = await request(app)
+      .get("/api/students/man")
+      .expect("Content-Type", /json/)
+      .expect(400);
+    // Check the returns that
+    expect(res.body.success).toBe(false);
+    expect(res.body.message).toMatch(/Validation error:/i);
+    expect(res.body).toHaveProperty("details");
   });
 });
 
@@ -199,6 +226,14 @@ describe("PATCH /api/students/:studentId", () => {
       .expect("Content-Type", /json/)
       .expect(400);
   });
+  it("should return 404 if student does not exist", async () => {
+    const validUpdateSchema = { firstName: "Ahmed" };
+    const res = await request(app)
+      .patch("/api/students/999")
+      .send(validUpdateSchema)
+      .expect("Content-Type", /json/)
+      .expect(404);
+  });
   it("should return 200 if minimum requirements met with the right student id", async () => {
     const studentWithMinmumFields = {
       firstName: "Salem",
@@ -215,5 +250,35 @@ describe("PATCH /api/students/:studentId", () => {
       .send(validUpdateSchema)
       .expect("Content-Type", /json/)
       .expect(200);
+  });
+});
+
+describe("DELETE /api/students/:studentId", () => {
+  it("should return 400 if student id is non numeric", async () => {
+    const res = await request(app)
+      .delete("/api/students/1a")
+      .expect("Content-Type", /json/)
+      .expect(400);
+  });
+  it("should return 404 if student does not exist", async () => {
+    const res = await request(app)
+      .delete("/api/students/999")
+      .expect("Content-Type", /json/)
+      .expect(404);
+  });
+  it("should return 202 if student deleted successfully", async () => {
+    const studentWithMinmumFields = {
+      firstName: "Salem",
+      secondName: "Ahmed",
+      dateOfBirth: "2008-01-05",
+      contactNumber: "38846577",
+      gender: "Male",
+      email: "saloom@saloom.org",
+    };
+    const student = await createStudentService(studentWithMinmumFields);
+    const res = await request(app)
+      .delete(`/api/students/${student.studentId}`)
+      .expect("Content-Type", /json/)
+      .expect(202);
   });
 });

@@ -6,10 +6,12 @@ import {
   EDUCATION_LEVEL,
 } from "../models/studentModel.js";
 
+// Note schema for student notes
 const noteJoiSchema = Joi.object({
   text: Joi.string().required(),
 });
 
+// Relative schema for student relatives
 const relativeJoiSchema = Joi.object({
   name: Joi.string().required().min(3),
   mobile: Joi.string().pattern(/^\d+$/).required(),
@@ -21,6 +23,7 @@ const relativeJoiSchema = Joi.object({
     .required(),
 });
 
+// Schema for creating a new student
 const createStudentSchema = Joi.object({
   firstName: Joi.string().min(3).required(),
   secondName: Joi.string().min(3).required(),
@@ -48,6 +51,7 @@ const createStudentSchema = Joi.object({
   notes: Joi.array().items(noteJoiSchema).optional(),
 });
 
+// Schema for updating an existing student
 const updateStudentSchema = Joi.object({
   firstName: Joi.string().min(3),
   secondName: Joi.string().min(3),
@@ -76,6 +80,7 @@ const updateStudentSchema = Joi.object({
       "At least one field must be provided to update student record",
   });
 
+// Schema for validating studentId parameter
 const studentIdSchema = Joi.object({
   studentId: Joi.number().integer().positive().required(),
 });

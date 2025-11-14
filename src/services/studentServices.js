@@ -105,7 +105,7 @@ const deleteStudentByIdService = async (studentId) => {
     // Support both numeric auto-increment studentId and ObjectId _id
     if (/^\d+$/.test(String(studentId))) {
       // delete by the studentId field
-      await Student.findByIdAndDelete(Number({ studentId: studentId }));
+      await Student.findOneAndDelete({ studentId: Number(studentId) });
     } else if (mongoose.Types.ObjectId.isValid(String(studentId))) {
       // delete by the _id field
       await Student.findByIdAndDelete(studentId);
