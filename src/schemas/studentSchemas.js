@@ -51,7 +51,7 @@ const createStudentSchema = Joi.object({
 const updateStudentSchema = Joi.object({
   firstName: Joi.string().min(3),
   secondName: Joi.string().min(3),
-  dateOfBirth: Joi.date().max("now").required().messages({
+  dateOfBirth: Joi.date().max("now").messages({
     "date.max": "Date of birth cannot be in the future",
   }),
   identityNumber: Joi.string().alphanum().pattern(/^\S+$/).messages({
