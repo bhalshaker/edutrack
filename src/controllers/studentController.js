@@ -61,7 +61,17 @@ const getStudentById = async (req, res) => {
 
 const updateStudentById = async (req, res) => {
   try {
-    const updatedStudent = await updateStudentByIdService(req.params.studentId);
+    const student = await getStudentByIdService(req.params.studentId);
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Requested student does not exist",
+      });
+    }
+    const updatedStudent = await updateStudentByIdService(
+      Number(req.params.studentId),
+      req.body
+    );
     return res.status(200).json(updatedStudent);
   } catch (error) {
     const errorMessage = error.details
@@ -77,6 +87,13 @@ const updateStudentById = async (req, res) => {
 
 const deleteStudentById = async (req, res) => {
   try {
+    const student = await getStudentByIdService(req.params.studentId);
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Requested student does not exist",
+      });
+    }
     await deleteStudentByIdService(req.params.studentId);
     return res
       .status(202)
