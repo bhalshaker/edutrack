@@ -24,7 +24,7 @@ const getAllStudents = async (req, res) => {
 
 const createStudent = async (req, res) => {
   try {
-    const createdStudent = await createStudentService(req.body());
+    const createdStudent = await createStudentService(req.body);
     return res.status(201).json(createdStudent);
   } catch (error) {
     const errorMessage = error.details
@@ -41,7 +41,12 @@ const createStudent = async (req, res) => {
 const getStudentById = async (req, res) => {
   try {
     const student = await getStudentByIdService(req.params.studentId);
-    return res.status(200).json(student);
+    if (student) return res.status(200).json(student);
+    else
+      return res.status(404).json({
+        success: false,
+        message: "Requested student does not exist",
+      });
   } catch (error) {
     const errorMessage = error.details
       .map((detail) => detail.message)
