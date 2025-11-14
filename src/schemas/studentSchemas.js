@@ -30,7 +30,7 @@ const createStudentSchema = Joi.object({
   identityNumber: Joi.string().alphanum().pattern(/^\S+$/).optional().messages({
     "string.patter.base": "identityNumber should not contain any spaces",
   }),
-  conctactNumber: Joi.string().pattern(/^\d+$/).required().messages({
+  contactNumber: Joi.string().pattern(/^\d+$/).required().messages({
     "string.pattern.base": "Contact number must contain only numbers.",
   }),
   gender: Joi.string()
@@ -57,7 +57,7 @@ const updateStudentSchema = Joi.object({
   identityNumber: Joi.string().alphanum().pattern(/^\S+$/).messages({
     "string.patter.base": "identityNumber should not contain any spaces",
   }),
-  conctactNumber: Joi.string().pattern(/^\d+$/).messages({
+  contactNumber: Joi.string().pattern(/^\d+$/).messages({
     "string.pattern.base": "Contact number must contain only numbers.",
   }),
   gender: Joi.string().valid(...GENDER),
@@ -77,7 +77,7 @@ const updateStudentSchema = Joi.object({
   });
 
 const studentIdSchema = Joi.object({
-  id: Joi.number().integer().positive().required(),
+  studentId: Joi.number().integer().positive().required(),
 });
 
 export { createStudentSchema, updateStudentSchema, studentIdSchema };
