@@ -77,6 +77,7 @@ describe("GET /api/students/:studentId", () => {
       .expect(404);
   });
   it("should return 200 student exists", async () => {
+    // Create a student to be used for the test
     const studentWithMinmumFields = {
       firstName: "Salem",
       secondName: "Ahmed",
@@ -98,7 +99,7 @@ describe("GET /api/students/:studentId", () => {
       .get("/api/students/man")
       .expect("Content-Type", /json/)
       .expect(400);
-    // Check the returns that
+    // Check the errors returned
     expect(res.body.success).toBe(false);
     expect(res.body.message).toMatch(/Validation error:/i);
     expect(res.body).toHaveProperty("details");
@@ -107,6 +108,7 @@ describe("GET /api/students/:studentId", () => {
 
 describe("POST /api/students successfully", () => {
   it("Minumum required parameters", async () => {
+    // Student payload with minimum required fields
     const studentWithMinmumFields = {
       firstName: "Salem",
       secondName: "Ahmed",
@@ -115,6 +117,7 @@ describe("POST /api/students successfully", () => {
       gender: "Male",
       email: "saloom@saloom.org",
     };
+    // Post request to create the student
     const res = await request(app)
       .post("/api/students")
       .send(studentWithMinmumFields)
@@ -122,6 +125,7 @@ describe("POST /api/students successfully", () => {
       .expect(201);
   });
   it("All parameters", async () => {
+    // Student payload with all fields
     const studentWithAllParameters = {
       firstName: "Salwa",
       secondName: "Abdulrahman",
@@ -148,6 +152,7 @@ describe("POST /api/students successfully", () => {
         { text: "Excellent academic performance in Science." },
       ],
     };
+    // Post request to create the student
     const res = await request(app)
       .post("/api/students")
       .send(studentWithAllParameters)
@@ -158,14 +163,17 @@ describe("POST /api/students successfully", () => {
 
 describe("GET /api/students successfully", () => {
   it("GET /api/students --> should return no students", async () => {
+    // Get request to retrieve all students
     const res = await request(app)
       .get("/api/students")
       .expect("Content-Type", /json/)
-      .expect(200); // Expect a 200 OK status
+      .expect(200);
+    // Check that the response is an empty array
     expect(res.body).toBeInstanceOf(Array);
     expect(res.body.length).toBe(0);
   });
   it("GET /api/students --> should return all students", async () => {
+    // Create two students to be retrieved later
     const studentWithMinmumFields = {
       firstName: "Salem",
       secondName: "Ahmed",
@@ -202,10 +210,12 @@ describe("GET /api/students successfully", () => {
     };
     await createStudentService(studentWithMinmumFields);
     await createStudentService(studentWithAllParameters);
+    // Get request to retrieve all students
     const res = await request(app)
       .get("/api/students")
       .expect("Content-Type", /json/)
-      .expect(200); // Expect a 200 OK status
+      .expect(200);
+    // Check that the response contains two students
     expect(res.body).toBeInstanceOf(Array);
     expect(res.body.length).toBe(2);
   });
@@ -213,12 +223,14 @@ describe("GET /api/students successfully", () => {
 
 describe("PATCH /api/students/:studentId", () => {
   it("should return 400 if student id is non numeric", async () => {
+    // Patch request with non numeric student id
     const res = await request(app)
       .patch("/api/students/1a")
       .expect("Content-Type", /json/)
       .expect(400);
   });
   it("should return 400 if update schema invalid", async () => {
+    // Patch request with invalid update schema
     const invalidUpdateSchema = {};
     const res = await request(app)
       .patch("/api/students/1")
@@ -227,6 +239,7 @@ describe("PATCH /api/students/:studentId", () => {
       .expect(400);
   });
   it("should return 404 if student does not exist", async () => {
+    // Patch request with valid schema but non existing student id
     const validUpdateSchema = { firstName: "Ahmed" };
     const res = await request(app)
       .patch("/api/students/999")
@@ -235,6 +248,7 @@ describe("PATCH /api/students/:studentId", () => {
       .expect(404);
   });
   it("should return 200 if minimum requirements met with the right student id", async () => {
+    // Create a student to be updated later
     const studentWithMinmumFields = {
       firstName: "Salem",
       secondName: "Ahmed",
@@ -244,6 +258,7 @@ describe("PATCH /api/students/:studentId", () => {
       email: "saloom@saloom.org",
     };
     const student = await createStudentService(studentWithMinmumFields);
+    // Patch request with valid update schema
     const validUpdateSchema = { firstName: "Ahmed" };
     const res = await request(app)
       .patch(`/api/students/${student.studentId}`)
@@ -255,18 +270,21 @@ describe("PATCH /api/students/:studentId", () => {
 
 describe("DELETE /api/students/:studentId", () => {
   it("should return 400 if student id is non numeric", async () => {
+    // Delete request with non numeric student id
     const res = await request(app)
       .delete("/api/students/1a")
       .expect("Content-Type", /json/)
       .expect(400);
   });
   it("should return 404 if student does not exist", async () => {
+    // Delete request with non existing student id
     const res = await request(app)
       .delete("/api/students/999")
       .expect("Content-Type", /json/)
       .expect(404);
   });
   it("should return 202 if student deleted successfully", async () => {
+    // Create a student to be deleted later
     const studentWithMinmumFields = {
       firstName: "Salem",
       secondName: "Ahmed",
@@ -276,6 +294,7 @@ describe("DELETE /api/students/:studentId", () => {
       email: "saloom@saloom.org",
     };
     const student = await createStudentService(studentWithMinmumFields);
+    // Delete request with existing student id
     const res = await request(app)
       .delete(`/api/students/${student.studentId}`)
       .expect("Content-Type", /json/)

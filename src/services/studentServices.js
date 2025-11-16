@@ -66,6 +66,7 @@ const updateStudentByIdService = async (studentId, updatedData) => {
         { studentId: Number(studentId) },
         updatedData,
         {
+          new: true, // return the updated document
           runValidators: true,
         }
       );
@@ -80,6 +81,7 @@ const updateStudentByIdService = async (studentId, updatedData) => {
         studentId,
         updatedData,
         {
+          new: true, // return the updated document
           runValidators: true,
         }
       );
