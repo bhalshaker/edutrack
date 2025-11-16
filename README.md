@@ -40,13 +40,20 @@
 
 ### 🧪 Test Runtime
 
-| **Tool/Library** | **Purpose**                                                          |
-| ---------------- | -------------------------------------------------------------------- |
-| **jest**         | JavaScript testing framework for unit and integration testing        |
-| **supertest**    | HTTP assertions and endpoint testing for Node.js applications        |
-| **nodemon**      | Automatically restarts the server on file changes during development |
+| **Tool/Library**          | **Purpose**                                                          |
+| ------------------------- | -------------------------------------------------------------------- |
+| **jest**                  | JavaScript testing framework for unit and integration testing        |
+| **supertest**             | HTTP assertions and endpoint testing for Node.js applications        |
+| **nodemon**               | Automatically restarts the server on file changes during development |
+| **mongodb-memory-server** | Run in memory database instance of MongoDB                           |
 
 ---
+
+## 📜 How to Use
+
+- [Setup and start the application](docs/procedures/setup_and_start_app.md)
+- [Create and Run a MongoDB Container on Podman](docs/procedures/setup_container_db.md)
+- [Create and Update Schemas Definitions with How to guide on how to use application RestAPIs](docs/procedures/restapi.md)
 
 ## 🙌 Attributions
 
