@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import mongooseSequence from "mongoose-sequence";
 const AutoIncrement = mongooseSequence(mongoose);
 
+//Allowable values for relationship enum
 const RELATIONSHIPS = [
   "Father",
   "Mother",
@@ -18,10 +19,13 @@ const RELATIONSHIPS = [
   "Other",
 ];
 
+//Allowable values for contact type enum
 const STATUS_TYPE = ["Guardian", "Contact"];
 
+//Allowable values for gender enum
 const GENDER = ["Male", "Female"];
 
+//Allowable values for educational level enum
 const EDUCATION_LEVEL = [
   "Nursery",
   "Preschool",
@@ -38,6 +42,7 @@ const EDUCATION_LEVEL = [
   "Doctorate",
 ];
 
+// Sub-schema for relatives
 const relativeSchema = new mongoose.Schema(
   {
     name: String,
@@ -52,6 +57,8 @@ const relativeSchema = new mongoose.Schema(
   // Mongoose option for automatic timestamp tracking (adds createdAt and updatedAt fields)
   { timestamps: true }
 );
+
+// Sub-schema for notes
 const noteSchema = new mongoose.Schema(
   {
     text: { type: String, required: true },
@@ -60,6 +67,7 @@ const noteSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Main student schema
 const studentSchema = new mongoose.Schema(
   {
     firstName: {
@@ -122,6 +130,8 @@ const studentSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Plugin to auto-increment studentId field
 studentSchema.plugin(AutoIncrement, { inc_field: "studentId", unique: true });
+// Create and export the Student model
 const Student = mongoose.model("Student", studentSchema);
 export { Student, RELATIONSHIPS, STATUS_TYPE, GENDER, EDUCATION_LEVEL };
